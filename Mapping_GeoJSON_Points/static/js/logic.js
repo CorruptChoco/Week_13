@@ -1,7 +1,7 @@
 console.log("working");
 
 // Create the map object with a center and zoom level.
-let map = L.map('mapid').setView([30, 30], 2);
+// let map = L.map('mapid').setView([30, 30], 2);
 
 // Accessing the airport GeoJSON URL
 let airportData = "https://raw.githubusercontent.com/CorruptChoco/Week_13/main/majorAirports.json";
@@ -67,6 +67,27 @@ let streets = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{
     zoomOffset: -1,
     accessToken: API_KEY
 });
+let dark = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/dark-v10',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: API_KEY
+});
+
+// Create a base layer that holds both maps.
+let baseMaps = {
+  Street: streets,
+  Dark: dark,
+}
+let map = L.map('mapid', {
+  center: [30, 30],
+  zoom: 2,
+  layers: [streets]
+})
+// Pass our map layers into our layers control and add the layers control to the map.
+L.control.layers(baseMaps).addTo(map);
 // Then we add our 'graymap' tile layer to the map.
 streets.addTo(map);
 
